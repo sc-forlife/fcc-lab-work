@@ -1,0 +1,15 @@
+{
+  "name": "build-a-playlist-remix-engine",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "vitest": "^4.1.5"
+  }
+}

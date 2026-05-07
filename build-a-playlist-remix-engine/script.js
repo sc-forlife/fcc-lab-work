@@ -72,5 +72,25 @@ function scoreTracks(playlists) {
 }
 
 // console.log(scoreTracks(flattenPlaylist(playlists)));
+function fixDuplicate(trackId) {
+  const wordPart = trackId.slice(0, 3);
+  const numPart = Number(trackId.slice(3));
+  console.log();
+  return `${wordPart}${String(numPart + 1)}`;
+}
 
-function dedupeTracks(playlist) {}
+export function dedupeTracks(scoreTracks) {
+  const playlist = scoreTracks;
+  //match trackId against duplicates
+  playlist.forEach((track, index) => {
+    const trackId = track.trackId;
+    for (let i = 0; i < playlist.length; i++) {
+      if (i === index) continue;
+      if (trackId === playlist[i].trackId) {
+        delete playlist[i];
+      }
+    }
+  });
+
+  return playlist;
+}
