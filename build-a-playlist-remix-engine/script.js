@@ -72,25 +72,37 @@ function scoreTracks(playlists) {
 }
 
 // console.log(scoreTracks(flattenPlaylist(playlists)));
-function fixDuplicate(trackId) {
-  const wordPart = trackId.slice(0, 3);
-  const numPart = Number(trackId.slice(3));
-  console.log();
-  return `${wordPart}${String(numPart + 1)}`;
+function idArrays(playlist) {
+  const idArray = [];
+  for (const obj of playlist) {
+    idArray.push(obj.trackId);
+  }
+
+  return idArray;
 }
 
 export function dedupeTracks(scoreTracks) {
   const playlist = scoreTracks;
   //match trackId against duplicates
-  playlist.forEach((track, index) => {
-    const trackId = track.trackId;
-    for (let i = 0; i < playlist.length; i++) {
-      if (i === index) continue;
-      if (trackId === playlist[i].trackId) {
-        delete playlist[i];
-      }
-    }
-  });
+
+  const matchId = idArrays(scoreTracks);
+
+  for (const track of scoreTracks) {
+  }
+
+  // playlistLoop: for (let index = 0; index < playlist.length; index++) {
+  //   const trackId = playlist[index].trackId;
+  //   for (let i = 0; i < playlist.length; i++) {
+  //     if (i === index) {
+  //       continue playlistLoop;
+  //     }
+  //     console.log(i, index, "i counter , index");
+  //     if (trackId === playlist[i].trackId) {
+  //       console.log(playlist[index], "to be deleted");
+  //       playlist.splice(index, 1);
+  //     }
+  //   }
+  // }
 
   return playlist;
 }

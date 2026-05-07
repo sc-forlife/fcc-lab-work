@@ -14,12 +14,15 @@ describe("", () => {
   });
   it("Does the function remove multiple duplicates ", () => {
     const playlist = dedupeTracks([
-      { trackId: "trk101" },
+      { trackId: "trk101", Mark: "Here" },
       { trackId: "trk101" },
       { trackId: "trk101" },
       { trackId: "trk102" },
     ]);
 
-    expect(playlist).toEqual([{ trackId: "trk101" }, { trackId: "trk102" }]);
+    expect(playlist).toEqual([
+      { trackId: "trk101", Mark: "Here" },
+      { trackId: "trk102" },
+    ]);
   });
 });
