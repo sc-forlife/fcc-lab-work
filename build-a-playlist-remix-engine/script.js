@@ -40,9 +40,9 @@ const playlists = [
   ],
 ];
 
-function flattenPlaylist(playlistArray) {
+export function flattenPlaylists(playlistArray) {
   //check if array
-  if (typeof playlistArray !== "object") return [];
+  if (!Array.isArray(playlistArray)) return [];
 
   const flatArray = [];
 
@@ -111,4 +111,25 @@ export function enforceArtistQuota(dedupeTracks, limit) {
   }
 
   return cleanedPlaylist;
+}
+
+export function buildSchedule(dedupeTracks) {
+  const playlist = dedupeTracks;
+  const trackObject = [];
+  let count = 1;
+
+  for (const track of dedupeTracks) {
+    trackObject.push({ slot: count, trackId: track.trackId });
+    count++;
+  }
+
+  return trackObject;
+}
+
+export function remixPlaylist(playlist, limit) {
+  const flattenArr = flattenPlaylists(playlist);
+  const scoredTracksArr = scoreTracks(flattenArr);
+  const nonDuplicatesArr = dedupeTracks(scoredTracksArr);
+  const enforceArtistQuotaArr = enforceArtistQuota(nonDuplicatesArr, limit);
+  return buildSchedule(enforceArtistQuotaArr);
 }
