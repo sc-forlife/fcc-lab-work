@@ -71,38 +71,44 @@ function scoreTracks(playlists) {
   return newArr;
 }
 
-// console.log(scoreTracks(flattenPlaylist(playlists)));
-function idArrays(playlist) {
-  const idArray = [];
-  for (const obj of playlist) {
-    idArray.push(obj.trackId);
-  }
-
-  return idArray;
-}
-
 export function dedupeTracks(scoreTracks) {
   const playlist = scoreTracks;
-  //match trackId against duplicates
 
-  const matchId = idArrays(scoreTracks);
+  let matchId = [];
 
-  for (const track of scoreTracks) {
+  let nonDuplicates = [];
+
+  nonDuplicates = playlist.filter((track) => {
+    if (!matchId.includes(track.trackId)) {
+      matchId.push(track.trackId);
+      return true;
+    }
+  });
+
+  return nonDuplicates;
+}
+
+function artistQuota(currentPlaylist, name) {
+  let count = 0;
+
+  if (currentPlaylist.length === 0) return count;
+
+  for (const track of currentPlaylist) {
+    if (track.artist === name) {
+      count++;
+    }
+  }
+  return count;
+}
+
+export function enforceArtistQuota(dedupeTracks, limit) {
+  const playlist = dedupeTracks;
+  let cleanedPlaylist = [];
+  for (const track of playlist) {
+    if (limit > artistQuota(cleanedPlaylist, track.artist)) {
+      cleanedPlaylist.push(track);
+    }
   }
 
-  // playlistLoop: for (let index = 0; index < playlist.length; index++) {
-  //   const trackId = playlist[index].trackId;
-  //   for (let i = 0; i < playlist.length; i++) {
-  //     if (i === index) {
-  //       continue playlistLoop;
-  //     }
-  //     console.log(i, index, "i counter , index");
-  //     if (trackId === playlist[i].trackId) {
-  //       console.log(playlist[index], "to be deleted");
-  //       playlist.splice(index, 1);
-  //     }
-  //   }
-  // }
-
-  return playlist;
+  return cleanedPlaylist;
 }
