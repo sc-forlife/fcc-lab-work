@@ -1,10 +1,9 @@
-import { validateForm } from "./script";
 import { describe, it, expect } from "vitest";
-import "@testing-library/jest-dom/vitest";
+import { validateForm } from "./script";
 
 describe("validateForm", () => {
-  it("Return Objects True of False of checked Elements", () => {
+  it("Return an object with element name and boolean Value", () => {
     const form = validateForm();
-    expect(form).toMatchObject({ fullName: expect.any(Boolean) });
+    expect(form).toMatchObject({ fullName: expect().any(Boolean) });
   });
 });
