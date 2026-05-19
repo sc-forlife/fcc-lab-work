@@ -1,27 +1,15 @@
-export function validateForm() {
-  const obj = {};
+const fullNameInput = document.getElementById("full-name");
 
-  const fullNameInput = document.getElementById("full-name");
-  const emailInput = document.getElementById("email");
-  const OrderNoInput = document.getElementById("order-no");
-  const ProductCodeInput = document.getElementById("product-code");
-
-  // console.log(fullNameInput.checkValidity());
-  // console.log(fullNameInput.validity);
-
-  obj["fullName"] = fullNameInput.checkValidity();
-  obj["email"] = emailInput.checkValidity();
-  obj["order-no"] = OrderNoInput.checkValidity();
-  obj["product-code"] = ProductCodeInput.checkValidity();
-
-  console.log(fullNameInput.validity);
-  console.log(emailInput.validity);
-
-  return obj;
+function checkInput(e) {
+  if (e.target.checkValidity()) {
+    console.log(e.target.checkValidity());
+    e.target.style.borderColor = "green";
+  } else {
+    console.log(e.target.checkValidity());
+    e.target.style.borderColor = "red";
+  }
 }
 
 const form = document.querySelector("form");
 
-form.addEventListener("input", () => {
-  validateForm();
-});
+form.addEventListener("change", checkInput);
