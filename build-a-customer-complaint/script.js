@@ -34,10 +34,16 @@ function validateForm(e) {
 
 function checkInput(e) {
   if (e.target.name === "complaint") {
-    console.log("I ran");
-    console.log(e.target.value);
+    const complaintsSelect = document.getElementsByName("complaint");
     const fieldset = document.getElementById("complaints-group");
-    fieldset.style.borderColor = e.target.value ? "green" : "red";
+    checkTrue: for (const checkbox of complaintsSelect) {
+      if (checkbox.checked) {
+        fieldset.style.borderColor = "green";
+        break checkTrue;
+      } else {
+        fieldset.style.borderColor = "red";
+      }
+    }
   }
   // if (e.target.checkValidity() && e.target.value !== "") {
   //   console.log(e.target.checkValidity());
