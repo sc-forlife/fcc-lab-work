@@ -7,8 +7,11 @@ const productCodeInput = document.getElementById("product-code");
 const quantityInput = document.getElementById("quantity");
 const complaintsGroupInput = document.getElementById("complaints-group");
 const otherComplaintsInput = document.getElementById("other-complaint");
+const complaintDescription = document.getElementById("complaint-description");
 const solutionsGroupInput = document.getElementById("solutions-group");
 const otherSolutionsInput = document.getElementById("solution-description");
+
+other;
 
 function validateForm(e) {
   e.preventDefault();
@@ -22,6 +25,17 @@ function validateForm(e) {
   obj["quantity"] = quantityInput.value ? true : false;
   obj["complaints-group"] = complaintsGroupInput.value ? true : false;
   obj["other-complaint"] = otherComplaintsInput.value ? true : false;
+
+  if (otherComplaintsInput) {
+    if (complaintDescription.checkValidity()) {
+      obj["complaint-description"] = true;
+    } else {
+      obj["complaint-description"] = false;
+    }
+  } else {
+    obj["complaint-description"] = true;
+  }
+
   obj["solutions-group"] = solutionsGroupInput.value ? true : false;
   obj["solution-description"] = otherSolutionsInput.value ? true : false;
 
@@ -36,22 +50,23 @@ function checkInput(e) {
   if (e.target.name === "complaint") {
     const complaintsSelect = document.getElementsByName("complaint");
     const fieldset = document.getElementById("complaints-group");
-    checkTrue: for (const checkbox of complaintsSelect) {
+    for (const checkbox of complaintsSelect) {
       if (checkbox.checked) {
+        // if ((checkbox.target.value = "other")) {
+        // }
         fieldset.style.borderColor = "green";
-        break checkTrue;
+        break;
       } else {
         fieldset.style.borderColor = "red";
       }
     }
+  } else if (e.target.checkValidity() && e.target.value !== "") {
+    console.log(e.target.checkValidity());
+    e.target.style.borderColor = "green";
+  } else {
+    console.log(e.target.checkValidity());
+    e.target.style.borderColor = "red";
   }
-  // if (e.target.checkValidity() && e.target.value !== "") {
-  //   console.log(e.target.checkValidity());
-  //   e.target.style.borderColor = "green";
-  // } else {
-  //   console.log(e.target.checkValidity());
-  //   e.target.style.borderColor = "red";
-  // }
 }
 
 //form buttons
