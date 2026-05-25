@@ -45,3 +45,11 @@ textarea {
 #clear-btn {
   margin: 10px 15px 0;
 }
+
+.description-container {
+  display: none;
+}
+
+.display-description-container {
+  display: block;
+}

@@ -10,8 +10,27 @@ const otherComplaintsInput = document.getElementById("other-complaint");
 const complaintDescription = document.getElementById("complaint-description");
 const solutionsGroupInput = document.getElementById("solutions-group");
 const otherSolutionsInput = document.getElementById("solution-description");
+const otherComplaintButton = document.getElementById("other-complaint");
+const otherSolutionButton = document.getElementById("other-solution");
 
-other;
+const complaintDescriptionContainer = document.getElementById(
+  "complaint-description-container",
+);
+const solutionDescriptionContainer = document.getElementById(
+  "solution-description-container",
+);
+
+otherComplaintButton.addEventListener("click", () => {
+  complaintDescriptionContainer.classList.toggle(
+    "display-description-container",
+  );
+});
+
+otherSolutionButton.addEventListener("click", () => {
+  solutionDescriptionContainer.classList.toggle(
+    "display-description-container",
+  );
+});
 
 function validateForm(e) {
   e.preventDefault();
@@ -52,9 +71,16 @@ function checkInput(e) {
     const fieldset = document.getElementById("complaints-group");
     for (const checkbox of complaintsSelect) {
       if (checkbox.checked) {
-        // if ((checkbox.target.value = "other")) {
-        // }
         fieldset.style.borderColor = "green";
+        // is other selected before checking
+        if ((checkbox.value = "other")) {
+          //check the textarea if its valid
+          if (complaintDescription.checkValidity()) {
+            complaintDescription.style.borderColor = "green";
+          } else {
+            complaintDescription.style.borderColor = "red";
+          }
+        }
         break;
       } else {
         fieldset.style.borderColor = "red";
