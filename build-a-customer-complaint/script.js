@@ -12,6 +12,7 @@ const solutionsGroupInput = document.getElementById("solutions-group");
 const otherSolutionsInput = document.getElementById("solution-description");
 const otherComplaintButton = document.getElementById("other-complaint");
 const otherSolutionButton = document.getElementById("other-solution");
+const solutionsGroup = document.getElementById("solutions-group");
 
 const complaintDescriptionContainer = document.getElementById(
   "complaint-description-container",
@@ -26,15 +27,17 @@ otherComplaintButton.addEventListener("click", () => {
   );
 });
 
-otherSolutionButton.addEventListener("click", () => {
-  solutionDescriptionContainer.classList.toggle(
-    "display-description-container",
-  );
+solutionsGroup.addEventListener("change", () => {
+  if (otherSolutionButton.checked) {
+    solutionDescriptionContainer.classList.add("display-description-container");
+  } else {
+    solutionDescriptionContainer.classList.remove(
+      "display-description-container",
+    );
+  }
 });
 
-function validateForm(e) {
-  e.preventDefault();
-
+function validateForm() {
   //check if inputs not empty
   const obj = {};
   obj["full-name"] = fullNameInput.value ? true : false;
@@ -58,8 +61,6 @@ function validateForm(e) {
   obj["solutions-group"] = solutionsGroupInput.value ? true : false;
   obj["solution-description"] = otherSolutionsInput.value ? true : false;
 
-  console.log(obj);
-
   return obj;
 }
 
@@ -68,31 +69,45 @@ function validateForm(e) {
 function checkInput(e) {
   if (e.target.name === "complaint") {
     const complaintsSelect = document.getElementsByName("complaint");
-    const fieldset = document.getElementById("complaints-group");
+    const fieldsetComplaint = document.getElementById("complaints-group");
     for (const checkbox of complaintsSelect) {
       if (checkbox.checked) {
-        fieldset.style.borderColor = "green";
-        // is other selected before checking
-        if ((checkbox.value = "other")) {
-          //check the textarea if its valid
-          if (complaintDescription.checkValidity()) {
-            complaintDescription.style.borderColor = "green";
-          } else {
-            complaintDescription.style.borderColor = "red";
-          }
-        }
+        fieldsetComplaint.style.borderColor = "green";
         break;
       } else {
-        fieldset.style.borderColor = "red";
+        fieldsetComplaint.style.borderColor = "red";
+      }
+    }
+  } else if (e.target.name === "solutions") {
+    const solutionsSelect = document.getElementsByName("solutions");
+    const fieldsetSolutions = document.getElementById("solutions-group");
+    for (const checkbox of solutionsSelect) {
+      if (checkbox.checked) {
+        fieldsetSolutions.style.borderColor = "green";
+        break;
+      } else {
+        fieldsetSolutions.style.borderColor = "red";
       }
     }
   } else if (e.target.checkValidity() && e.target.value !== "") {
-    console.log(e.target.checkValidity());
     e.target.style.borderColor = "green";
   } else {
-    console.log(e.target.checkValidity());
     e.target.style.borderColor = "red";
   }
+}
+
+function isValid(validateFunc) {
+  const obj = validateFunc();
+
+  console.log(obj);
+
+  for (const key in obj) {
+    if (!obj[key]) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 //form buttons
@@ -102,5 +117,6 @@ const submit = document.getElementById("submit-btn");
 form.addEventListener("change", checkInput);
 
 submit.addEventListener("click", (e) => {
-  validateForm(e);
+  e.preventDefault();
+  console.log(isValid(validateForm));
 });
