@@ -9,9 +9,6 @@ const complaintsGroupInput = document.getElementById("complaints-group");
 const otherComplaintsInput = document.getElementById("other-complaint");
 const complaintDescription = document.getElementById("complaint-description");
 const solutionsGroupInput = document.getElementById("solutions-group");
-
-//This is wrong ???????
-//You need to query "Other radio button" to check if its selected or not
 const otherSolutionsInput = document.getElementById("solution-description");
 const otherComplaintButton = document.getElementById("other-complaint");
 const otherSolutionButton = document.getElementById("other-solution");
@@ -46,7 +43,7 @@ function validateForm() {
   const obj = {};
   obj["full-name"] = fullNameInput.value ? true : false; //good
   obj["email"] = emailInput.checkValidity() ? true : false; //good
-  obj["order-no"] = orderNumInput.checkValidity() ? true : false; //bad
+  obj["order-no"] = orderNumInput.checkValidity() ? true : false; //bad , true means valid
   obj["product-code"] = productCodeInput.checkValidity() ? true : false; //bad
   obj["quantity"] = quantityInput.checkValidity() ? true : false; //bad
 
@@ -111,7 +108,7 @@ function checkInput(e) {
         solutionsGroupInput.style.borderColor = "red";
       }
     }
-  } else if (e.target.checkValidity() && e.target.value !== "") {
+  } else if (e.target.checkValidity()) {
     e.target.style.borderColor = "green";
   } else {
     e.target.style.borderColor = "red";

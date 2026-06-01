@@ -18,7 +18,7 @@
             id="full-name"
             name="full-name"
             placeholder="John Doe"
-            pattern="\w+\s\w+"
+            required
           />
         </div>
 
@@ -30,6 +30,7 @@
             name="email"
             placeholder="example@domain.com"
             pattern=".+@.+\.com"
+            required
           />
         </div>
       </fieldset>
@@ -43,6 +44,7 @@
             name="order-no"
             placeholder="2024######"
             pattern="2024\d{6}"
+            required
           />
         </div>
         <div>
@@ -53,11 +55,12 @@
             name="product-code"
             placeholder="XX##-X###-XX#"
             pattern="[A-Z]{2}\d{2}-[A-Z]{1}\d{3}-[A-Z]{2}\d{1}"
+            required
           />
         </div>
         <div>
           <label for="quantity">Quantity:</label>
-          <input type="number" id="quantity" name="quantity" min="1" />
+          <input type="number" id="quantity" name="quantity" min="1" required />
         </div>
       </fieldset>
 
@@ -114,6 +117,7 @@
           name="complaint-textarea"
           id="complaint-description"
           minlength="20"
+          required
         ></textarea>
       </fieldset>
 
@@ -144,6 +148,7 @@
           name="solution-textarea"
           id="solution-description"
           minlength="20"
+          required
         ></textarea>
       </fieldset>
       <div id="btn-container">
@@ -152,6 +157,6 @@
       </div>
     </form>
 
-    <script type="module" src="script.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
