@@ -9,10 +9,14 @@ const complaintsGroupInput = document.getElementById("complaints-group");
 const otherComplaintsInput = document.getElementById("other-complaint");
 const complaintDescription = document.getElementById("complaint-description");
 const solutionsGroupInput = document.getElementById("solutions-group");
+
+//This is wrong ???????
+//You need to query "Other radio button" to check if its selected or not
 const otherSolutionsInput = document.getElementById("solution-description");
 const otherComplaintButton = document.getElementById("other-complaint");
 const otherSolutionButton = document.getElementById("other-solution");
-const solutionsGroup = document.getElementById("solutions-group");
+const complaintsSelect = document.getElementsByName("complaint");
+const solutionsSelect = document.getElementsByName("solutions");
 
 const complaintDescriptionContainer = document.getElementById(
   "complaint-description-container",
@@ -27,7 +31,7 @@ otherComplaintButton.addEventListener("click", () => {
   );
 });
 
-solutionsGroup.addEventListener("change", () => {
+solutionsGroupInput.addEventListener("change", () => {
   if (otherSolutionButton.checked) {
     solutionDescriptionContainer.classList.add("display-description-container");
   } else {
@@ -40,26 +44,48 @@ solutionsGroup.addEventListener("change", () => {
 function validateForm() {
   //check if inputs not empty
   const obj = {};
-  obj["full-name"] = fullNameInput.value ? true : false;
-  obj["email"] = emailInput.value ? true : false;
-  obj["order-no"] = orderNumInput.value ? true : false;
-  obj["product-code"] = productCodeInput.value ? true : false;
-  obj["quantity"] = quantityInput.value ? true : false;
-  obj["complaints-group"] = complaintsGroupInput.value ? true : false;
-  obj["other-complaint"] = otherComplaintsInput.value ? true : false;
+  obj["full-name"] = fullNameInput.value ? true : false; //good
+  obj["email"] = emailInput.checkValidity() ? true : false; //good
+  obj["order-no"] = orderNumInput.checkValidity() ? true : false; //bad
+  obj["product-code"] = productCodeInput.checkValidity() ? true : false; //bad
+  obj["quantity"] = quantityInput.checkValidity() ? true : false; //bad
 
-  if (otherComplaintsInput) {
-    if (complaintDescription.checkValidity()) {
-      obj["complaint-description"] = true;
-    } else {
-      obj["complaint-description"] = false;
+  obj["complaints-group"] = false;
+  for (const checkbox of complaintsSelect) {
+    if (checkbox.checked) {
+      obj["complaints-group"] = true;
+      break;
     }
+  }
+
+  if (otherComplaintsInput.checked) {
+    //good
+
+    obj["complaint-description"] = complaintDescription.checkValidity()
+      ? true
+      : false;
   } else {
     obj["complaint-description"] = true;
   }
 
-  obj["solutions-group"] = solutionsGroupInput.value ? true : false;
-  obj["solution-description"] = otherSolutionsInput.value ? true : false;
+  obj["solutions-group"] = false; //bad
+
+  for (const radio of solutionsSelect) {
+    if (radio.checked) {
+      obj["solutions-group"] = true;
+      break;
+    }
+  }
+
+  //This is wrong
+  //This is not
+  if (otherSolutionButton.checked) {
+    obj["solution-description"] = otherSolutionsInput.checkValidity()
+      ? true
+      : false; //bad
+  } else {
+    obj["solution-description"] = true; //bad
+  }
 
   return obj;
 }
@@ -68,25 +94,21 @@ function validateForm() {
 
 function checkInput(e) {
   if (e.target.name === "complaint") {
-    const complaintsSelect = document.getElementsByName("complaint");
-    const fieldsetComplaint = document.getElementById("complaints-group");
     for (const checkbox of complaintsSelect) {
       if (checkbox.checked) {
-        fieldsetComplaint.style.borderColor = "green";
+        complaintsGroupInput.style.borderColor = "green";
         break;
       } else {
-        fieldsetComplaint.style.borderColor = "red";
+        complaintsGroupInput.style.borderColor = "red";
       }
     }
   } else if (e.target.name === "solutions") {
-    const solutionsSelect = document.getElementsByName("solutions");
-    const fieldsetSolutions = document.getElementById("solutions-group");
     for (const checkbox of solutionsSelect) {
       if (checkbox.checked) {
-        fieldsetSolutions.style.borderColor = "green";
+        solutionsGroupInput.style.borderColor = "green";
         break;
       } else {
-        fieldsetSolutions.style.borderColor = "red";
+        solutionsGroupInput.style.borderColor = "red";
       }
     }
   } else if (e.target.checkValidity() && e.target.value !== "") {
