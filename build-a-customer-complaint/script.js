@@ -58,9 +58,8 @@ function validateForm() {
   if (otherComplaintsInput.checked) {
     //good
 
-    obj["complaint-description"] = complaintDescription.checkValidity()
-      ? true
-      : false;
+    obj["complaint-description"] =
+      complaintDescription.value.length >= 20 ? true : false;
   } else {
     obj["complaint-description"] = true;
   }
@@ -77,9 +76,8 @@ function validateForm() {
   //This is wrong
   //This is not
   if (otherSolutionButton.checked) {
-    obj["solution-description"] = otherSolutionsInput.checkValidity()
-      ? true
-      : false; //bad
+    obj["solution-description"] =
+      otherSolutionsInput.value.length >= 20 ? true : false; //bad
   } else {
     obj["solution-description"] = true; //bad
   }
@@ -108,6 +106,16 @@ function checkInput(e) {
         solutionsGroupInput.style.borderColor = "red";
       }
     }
+  } else if (e.target.name == "complaint-textarea") {
+    complaintDescription.style.borderColor =
+      otherComplaintsInput.checked && e.target.value.length >= 20
+        ? "green"
+        : "red";
+  } else if (e.target.name == "solution-textarea") {
+    otherSolutionsInput.style.borderColor =
+      otherSolutionButton.checked && e.target.value.length >= 20
+        ? "green"
+        : "red";
   } else if (e.target.checkValidity()) {
     e.target.style.borderColor = "green";
   } else {
