@@ -124,12 +124,8 @@ function checkInput(e) {
 }
 
 function isValid(validateFunc) {
-  const obj = validateFunc();
-
-  console.log(obj);
-
-  for (const key in obj) {
-    if (!obj[key]) {
+  for (const key in validateFunc) {
+    if (!validateFunc[key]) {
       return false;
     }
   }
@@ -143,7 +139,9 @@ const submit = document.getElementById("submit-btn");
 
 form.addEventListener("change", checkInput);
 
-submit.addEventListener("click", (e) => {
+form.addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log(isValid(validateForm));
+  if (isValid(validateForm())) {
+    alert("Form successfully submitted");
+  }
 });
