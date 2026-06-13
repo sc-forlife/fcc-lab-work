@@ -6,10 +6,14 @@ const rawData = [
   "C32|Eggs|3|2027-01-01|pantry", // zone: "pantry"
 ];
 
+const pantry = [];
+
 export function parseShipment(rawData) {
-  const data = rawData.map((string) => {
+  const duplicateSKU = [];
+  let data = rawData.map((string) => {
     const splitString = string.split("|");
     const shipmentObj = {};
+
     shipmentObj["sku"] = splitString[0];
     shipmentObj["name"] = splitString[1];
     shipmentObj["qty"] = Number(splitString[2]);
@@ -17,6 +21,8 @@ export function parseShipment(rawData) {
     shipmentObj["zone"] = splitString[4] || "general";
     return shipmentObj;
   });
+  console.log(duplicateSKU);
+  data = data.filter((item) => !duplicateSKU.includes(item.sku));
 
   return data;
 }
@@ -39,3 +45,25 @@ export function planRestock(pantry, shipment) {
   });
   return shimentData;
 }
+
+export function groupByZone(actions) {
+  const groupZone = {};
+  actions.forEach((element) => {
+    if (groupZone[element.item.zone]) {
+      groupZone[element.item.zone].push(element);
+    } else {
+      groupZone[element.item.zone] = [element];
+    }
+  });
+  return groupZone;
+}
+
+export function clonePantry(pantry) {
+  return [...pantry];
+}
+
+const processedShipment = parseShipment(rawData);
+
+const actions = planRestock(pantry, processedShipment);
+
+console.log(groupByZone(actions));

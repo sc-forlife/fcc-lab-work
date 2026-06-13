@@ -1,10 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { parseShipment } from "./script";
 import { planRestock } from "./script";
+import { groupByZone } from "./script";
+import { clonePantry } from "./script";
 
 describe("parseShipment", () => {
   it("Return { sku, name, qty, expires, zone } from shipment strings", () => {
-    const data = parseShipment(["A10|Tomatoes|5|2027-01-01|fridge"]);
+    const data = parseShipment([
+      "A10|Tomatoes|5|2027-01-01|fridge",
+      "A15|Onions|3|2027-01-01|fridge",
+      "A15|Onions|1|2027-01-01|fridge",
+    ]);
     expect(data).toMatchObject([
       {
         sku: "A10",
@@ -132,5 +138,33 @@ describe("planRestock", () => {
         },
       },
     ]);
+  });
+
+  describe("groupByZone", () => {
+    it("Returns action grouped", () => {
+      const data = groupByZone([
+        { type: "One", item: { zone: "One" } },
+        { type: "One", item: { zone: "One" } },
+        { type: "One", item: { zone: "Two" } },
+        { type: "One", item: { zone: "general" } },
+      ]);
+
+      expect(data).toMatchObject({
+        One: [
+          { type: "One", item: { zone: "One" } },
+          { type: "One", item: { zone: "One" } },
+        ],
+        Two: [{ type: "One", item: { zone: "Two" } }],
+        general: [{ type: "One", item: { zone: "general" } }],
+      });
+    });
+  });
+
+  describe("clonePantry", () => {
+    it("Returns deep copy", () => {
+      const data = clonePantry([{ item: "Items" }]);
+
+      expect(data).toMatchObject([{ item: "Items" }]);
+    });
   });
 });
