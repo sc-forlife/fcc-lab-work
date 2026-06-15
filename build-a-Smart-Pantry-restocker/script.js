@@ -8,27 +8,18 @@ const rawData = [
 
 const pantry = [];
 
-function duplicateElements(arr) {
-  const dupicates = [];
-  const arrDeepCopy = [...arr];
-  for (let i = 0; i <= arr.length - 1; i++) {
-    const removedArr = arr.shift();
-    if (arr.includes(removedArr)) {
-      if (!dupicates.includes(removedArr)) {
-        dupicates.push(removedArr);
-      }
-    }
-    arr.push(removedArr);
-  }
-  return dupicates;
-}
-
 export function parseShipment(rawData) {
   const duplicateSKU = [];
   let data = rawData.map((string) => {
     const splitString = string.split("|");
     const shipmentObj = {};
-    duplicateSKU.push(splitString[0]);
+
+    if (duplicateSKU.includes(splitString[0])) {
+      return { sku: "duplicate" };
+    } else {
+      duplicateSKU.push(splitString[0]);
+    }
+
     shipmentObj["sku"] = splitString[0];
     shipmentObj["name"] = splitString[1];
     shipmentObj["qty"] = Number(splitString[2]);
@@ -36,10 +27,7 @@ export function parseShipment(rawData) {
     shipmentObj["zone"] = splitString[4] || "general";
     return shipmentObj;
   });
-  data = data.filter(
-    (item) => !duplicateElements(duplicateSKU).includes(item.sku),
-  );
-
+  data = data.filter((item) => item.sku !== "duplicate");
   return data;
 }
 
@@ -75,7 +63,11 @@ export function groupByZone(actions) {
 }
 
 export function clonePantry(pantry) {
-  return [...pantry];
+  const newArr = [];
+  for (const item of pantry) {
+    newArr.push({ ...item });
+  }
+  return [...newArr];
 }
 
 const processedShipment = parseShipment(rawData);

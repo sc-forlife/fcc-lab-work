@@ -19,6 +19,13 @@ describe("parseShipment", () => {
         expires: "2027-01-01",
         zone: "fridge",
       },
+      {
+        sku: "A15",
+        name: "Onions",
+        qty: 3,
+        expires: "2027-01-01",
+        zone: "fridge",
+      },
     ]);
   });
 
