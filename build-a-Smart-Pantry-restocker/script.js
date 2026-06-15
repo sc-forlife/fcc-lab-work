@@ -8,12 +8,27 @@ const rawData = [
 
 const pantry = [];
 
+function duplicateElements(arr) {
+  const dupicates = [];
+  const arrDeepCopy = [...arr];
+  for (let i = 0; i <= arr.length - 1; i++) {
+    const removedArr = arr.shift();
+    if (arr.includes(removedArr)) {
+      if (!dupicates.includes(removedArr)) {
+        dupicates.push(removedArr);
+      }
+    }
+    arr.push(removedArr);
+  }
+  return dupicates;
+}
+
 export function parseShipment(rawData) {
   const duplicateSKU = [];
   let data = rawData.map((string) => {
     const splitString = string.split("|");
     const shipmentObj = {};
-
+    duplicateSKU.push(splitString[0]);
     shipmentObj["sku"] = splitString[0];
     shipmentObj["name"] = splitString[1];
     shipmentObj["qty"] = Number(splitString[2]);
@@ -21,8 +36,9 @@ export function parseShipment(rawData) {
     shipmentObj["zone"] = splitString[4] || "general";
     return shipmentObj;
   });
-  console.log(duplicateSKU);
-  data = data.filter((item) => !duplicateSKU.includes(item.sku));
+  data = data.filter(
+    (item) => !duplicateElements(duplicateSKU).includes(item.sku),
+  );
 
   return data;
 }
