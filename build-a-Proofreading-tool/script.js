@@ -46,3 +46,7 @@ export function findRepeatedPhrases(phrasesArr, phraseLength) {
   );
   return noRepeatIndex;
 }
+
+export function analyzeText(text, phraseLength) {
+  return "Hello world";
+}

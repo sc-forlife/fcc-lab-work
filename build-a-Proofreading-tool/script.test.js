@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { isPalindrome } from "./script";
 import { findPalindromeBreaks } from "./script";
 import { findRepeatedPhrases } from "./script";
+import { analyzeText } from "./script";
 
 describe("isPalindrome", () => {
   it("Return true if Palindrome and false if not , case-insensitive", () => {
@@ -53,5 +54,56 @@ describe("findRepeatedPhrases", () => {
   it("Phrase length greater or equal to words length return []", () => {
     const words = findRepeatedPhrases(["one", "two", "three"], 3);
     expect(words).toMatchObject([]);
+  });
+});
+
+describe("analyzeText", () => {
+  it("Return empty array when text s empty", () => {
+    expect(analyzeText([], 2)).toMatchObject([]);
+  });
+  it("Return Object with repeatedPhrases and PalindromeBreaks object", () => {
+    const data = analyzeText([["the", "cat", "sat", "the", "cat"]], 2);
+    expect(data).toMatchObject([
+      { repeatedPhrases: [0, 3], palindromeBreaks: [0, 1, 2, 3, 4] },
+    ]);
+  });
+  it("Return multiple Object with repeatedPhrases and PalindromeBreaks object", () => {
+    const data = analyzeText(
+      [
+        ["the", "cat", "sat", "the", "cat"],
+        ["a", "b", "c", "d"],
+        ["x", "y", "x", "y"],
+      ],
+      2,
+    );
+    expect(data).toMatchObject([
+      { repeatedPhrases: [0, 3], palindromeBreaks: [0, 1, 2, 3, 4] },
+      { repeatedPhrases: [], palindromeBreaks: [] },
+      { repeatedPhrases: [0, 2], palindromeBreaks: [] },
+    ]);
+  });
+  it("PhraseLength equals text length return empty repeatedPhrases", () => {
+    const data = analyzeText([["one", "two", "three"]], 3);
+    expect(data).toMatchObject({
+      repeatedPhrases: [],
+      palindromeBreaks: [0, 1, 2],
+    });
+  });
+  it("Return object , 1 dont break function", () => {
+    const data = analyzeText(
+      [
+        ["dog", "cat", "dog"],
+        ["red", "blue", "green"],
+      ],
+      1,
+    );
+    expect(data).toMatchObject([
+      { repeatedPhrases: [0, 2], palindromeBreaks: [0, 1, 2] },
+      { repeatedPhrases: [], palindromeBreaks: [0, 1, 2] },
+    ]);
+  });
+  it("One text array", () => {
+    const data = analyzeText([["hello"]], 1);
+    expect(data).toMatchObject({ repeatedPhrases: [], palindromeBreaks: [0] });
   });
 });
