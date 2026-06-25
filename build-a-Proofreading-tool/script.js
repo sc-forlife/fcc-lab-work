@@ -15,12 +15,16 @@ export function findPalindromeBreaks(wordsArr) {
 }
 
 function repeatingWords(words, length) {
-  const phraseLength = "";
   const wordsArr = [];
-  for (let i = 0; i < words.length - 1; i++) {
-    wordsArr.push(words.slice(i, i + length).join(" "));
+  if (length === 1) {
+    for (let i = 0; i < words.length; i++) {
+      wordsArr.push(words[i]);
+    }
+  } else if (length !== 1) {
+    for (let i = 0; i < words.length - 1; i++) {
+      wordsArr.push(words.slice(i, i + length).join(" "));
+    }
   }
-
   return wordsArr;
 }
 
@@ -48,5 +52,11 @@ export function findRepeatedPhrases(phrasesArr, phraseLength) {
 }
 
 export function analyzeText(text, phraseLength) {
-  return "Hello world";
+  const processedArr = text.map((textArr) => {
+    const obj = {};
+    obj["repeatedPhrases"] = findRepeatedPhrases(textArr, phraseLength);
+    obj["palindromeBreaks"] = findPalindromeBreaks(textArr);
+    return obj;
+  });
+  return processedArr;
 }

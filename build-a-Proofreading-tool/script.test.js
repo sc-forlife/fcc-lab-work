@@ -84,10 +84,12 @@ describe("analyzeText", () => {
   });
   it("PhraseLength equals text length return empty repeatedPhrases", () => {
     const data = analyzeText([["one", "two", "three"]], 3);
-    expect(data).toMatchObject({
-      repeatedPhrases: [],
-      palindromeBreaks: [0, 1, 2],
-    });
+    expect(data).toMatchObject([
+      {
+        repeatedPhrases: [],
+        palindromeBreaks: [0, 1, 2],
+      },
+    ]);
   });
   it("Return object , 1 dont break function", () => {
     const data = analyzeText(
@@ -104,6 +106,8 @@ describe("analyzeText", () => {
   });
   it("One text array", () => {
     const data = analyzeText([["hello"]], 1);
-    expect(data).toMatchObject({ repeatedPhrases: [], palindromeBreaks: [0] });
+    expect(data).toMatchObject([
+      { repeatedPhrases: [], palindromeBreaks: [0] },
+    ]);
   });
 });
