@@ -49,7 +49,24 @@ export function runSequence(config, cycle) {
     }
   }
 }
+function incrementArr(arr) {
+  const value = arr.reduce((acc, currVal) => {
+    return currVal + acc;
+  }, 0);
 
-export function generateTimeline() {
-  return [];
+  return value;
+}
+
+export function generateTimeline(config, cycle) {
+  const accArr = [];
+  const finalArr = [];
+
+  for (let i = 0; i < cycle; i++) {
+    for (const phase of config.phases) {
+      accArr.push(phase.duration);
+      finalArr.push(incrementArr(accArr));
+    }
+  }
+
+  return finalArr;
 }
