@@ -1,5 +1,11 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import { runSequence } from "./script";
+import { generateTimeline } from "./script";
+import { getElementError } from "@testing-library/react";
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe("runSequence", () => {
   it("Return no phases found if config.phases is empty", () => {
@@ -61,5 +67,64 @@ describe("runSequence", () => {
     expect(logSpy).toHaveBeenNthCalledWith(4, "Switching to red for 3 s");
     expect(logSpy).toHaveBeenNthCalledWith(5, "Switching to yellow for 4 s");
     expect(logSpy).toHaveBeenNthCalledWith(6, "Switching to green for 6 s");
+  });
+});
+
+describe("generateTimeline", () => {
+  it("1 Cycle generates cumulative stamps config1", () => {
+    const data = generateTimeline(
+      {
+        fault: false,
+        phases: [
+          { color: "green", duration: 5 },
+          { color: "yellow", duration: 2 },
+          { color: "red", duration: 4 },
+        ],
+      },
+      1,
+    );
+
+    expect(data).toMatchObject([5, 7, 11]);
+  });
+  it("2 Cycle generates cumulative stamps config1", () => {
+    const data = generateTimeline(
+      {
+        fault: false,
+        phases: [
+          { color: "green", duration: 5 },
+          { color: "yellow", duration: 2 },
+          { color: "red", duration: 4 },
+        ],
+      },
+      2,
+    );
+
+    expect(data).toMatchObject([5, 7, 11, 16, 18, 22]);
+  });
+  it("2 Cycle generates cumulative stamps config2", () => {
+    const data = generateTimeline(
+      {
+        fault: false,
+        phases: [
+          { color: "red", duration: 3 },
+          { color: "yellow", duration: -2 },
+          { color: "green", duration: 6 },
+        ],
+      },
+      2,
+    );
+
+    expect(data).toMatchObject([3, 1, 7, 10, 8, 14]);
+  });
+  it("1 Cycle generates cumulative stamps config4", () => {
+    const data = generateTimeline(
+      {
+        fault: false,
+        phases: [],
+      },
+      1,
+    );
+
+    expect(data).toMatchObject([]);
   });
 });

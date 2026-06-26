@@ -30,6 +30,26 @@ const config4 = {
   phases: [],
 };
 
-export function runSequence() {
+export function runSequence(config, cycle) {
+  if (config?.phases.length <= 0) {
+    console.log("No phases found");
+    return;
+  } else if (config?.fault === true) {
+    console.log("Faulted phase!");
+    return;
+  }
+
+  for (let i = 0; i < cycle; i++) {
+    for (const phase of config.phases) {
+      if (phase?.duration <= 0) {
+        console.log("Invalid phase detected");
+      } else {
+        console.log(`Switching to ${phase.color} for ${phase.duration} s`);
+      }
+    }
+  }
+}
+
+export function generateTimeline() {
   return [];
 }
