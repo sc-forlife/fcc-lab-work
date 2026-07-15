@@ -9,6 +9,8 @@ const addBookmartsBtnForm = document.getElementById("add-bookmark-button-form");
 const viewCategoryBtn = document.getElementById("view-category-button");
 const nameInput = document.getElementById("name");
 const urlInput = document.getElementById("url");
+const categoryList = document.getElementById("category-list");
+const closeListBtn = document.getElementById("close-list-button");
 
 //bookmarks from LS
 const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
@@ -77,5 +79,21 @@ addBookmartsBtnForm.addEventListener("click", () => {
 viewCategoryBtn.addEventListener("click", () => {
   updatePageHeader();
   //User stories
+  let selectedBookmarks = getBookmarks();
+  selectedBookmarks = selectedBookmarks.filter(
+    (bookmark) => bookmark.category === categoryName.innerText,
+  );
+  if (selectedBookmarks.length) {
+    selectedBookmarks.forEach((bookmark) => {
+      categoryList.innerHTML += `<label><input type="radio" name="category-list" id="${bookmark.name}" value="${bookmark.name}"/><a href="${bookmark.url}">  ${bookmark.name}</a></label><br>`;
+    });
+  } else {
+    categoryList.innerHTML = `<p>No Bookmarks Found</p>`;
+  }
+  displayOrHideCategory();
+});
+
+closeListBtn.addEventListener("click", () => {
+  categoryList.innerHTML = "";
   displayOrHideCategory();
 });
