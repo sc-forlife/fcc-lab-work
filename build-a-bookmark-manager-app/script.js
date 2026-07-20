@@ -13,10 +13,11 @@ const categoryList = document.getElementById("category-list");
 const closeListBtn = document.getElementById("close-list-button");
 const deleteBookmarkBtn = document.getElementById("delete-bookmark-button");
 
-//get the books from the local storage
 const getBookmarks = () => {
+  //get the books from the local storage
+  const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || ["Empty"];
+  console.log(bookmarks);
   //bookmarks from LS
-  const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
   return bookmarks;
 };
 
@@ -76,7 +77,7 @@ addBookmartsBtnForm.addEventListener("click", () => {
   displayOrCloseForm();
 });
 
-viewCategoryBtn.addEventListener("click", () => {
+const viewFunction = () => {
   updatePageHeader();
   //User stories
   let selectedBookmarks = getBookmarks();
@@ -91,7 +92,9 @@ viewCategoryBtn.addEventListener("click", () => {
     categoryList.innerHTML = `<p>No Bookmarks Found</p>`;
   }
   displayOrHideCategory();
-});
+};
+
+viewCategoryBtn.addEventListener("click", viewFunction);
 
 closeListBtn.addEventListener("click", () => {
   categoryList.innerHTML = "";
@@ -106,11 +109,11 @@ deleteBookmarkBtn.addEventListener("click", () => {
       const bookmark = getBookmarks().filter((book) => {
         return book.name !== radio.value;
       });
-      console.log(bookmark);
       localStorage.setItem("bookmarks", JSON.stringify(bookmark));
     }
   });
   console.log(getBookmarks());
-  displayOrHideCategory();
+  categoryList.innerHTML = "";
+  viewFunction();
   displayOrHideCategory();
 });
