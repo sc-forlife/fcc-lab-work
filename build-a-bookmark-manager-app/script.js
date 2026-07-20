@@ -11,12 +11,12 @@ const nameInput = document.getElementById("name");
 const urlInput = document.getElementById("url");
 const categoryList = document.getElementById("category-list");
 const closeListBtn = document.getElementById("close-list-button");
-
-//bookmarks from LS
-const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
+const deleteBookmarkBtn = document.getElementById("delete-bookmark-button");
 
 //get the books from the local storage
 const getBookmarks = () => {
+  //bookmarks from LS
+  const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || [];
   return bookmarks;
 };
 
@@ -57,7 +57,7 @@ closeFormBtn.addEventListener("click", () => {
 addBookmartsBtnForm.addEventListener("click", () => {
   //update the bookmarks in LS
   //add array at the end
-
+  const bookmarks = getBookmarks();
   const bookmarkName = nameInput.value;
   const category = categoryName.innerText;
   const url = urlInput.value;
@@ -95,5 +95,22 @@ viewCategoryBtn.addEventListener("click", () => {
 
 closeListBtn.addEventListener("click", () => {
   categoryList.innerHTML = "";
+  displayOrHideCategory();
+});
+
+deleteBookmarkBtn.addEventListener("click", () => {
+  const radioBtns = document.getElementsByName("category-list");
+  console.log(radioBtns);
+  radioBtns.forEach((radio) => {
+    if (radio.checked) {
+      const bookmark = getBookmarks().filter((book) => {
+        return book.name !== radio.value;
+      });
+      console.log(bookmark);
+      localStorage.setItem("bookmarks", JSON.stringify(bookmark));
+    }
+  });
+  console.log(getBookmarks());
+  displayOrHideCategory();
   displayOrHideCategory();
 });
