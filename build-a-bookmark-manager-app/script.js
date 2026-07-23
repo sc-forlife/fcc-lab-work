@@ -135,7 +135,12 @@ deleteBookmarkBtn.addEventListener("click", () => {
   radioBtns.forEach((radio) => {
     if (radio.checked) {
       const bookmark = getBookmarks().filter((book) => {
-        return book.name !== radio.value;
+        console.log(categoryDropdown.value, "catgeory");
+        console.log(book.category, "Book Category");
+        if (categoryDropdown.value === book.category) {
+          return book.name !== radio.value;
+        }
+        return book;
       });
       localStorage.setItem("bookmarks", JSON.stringify(bookmark));
     }
