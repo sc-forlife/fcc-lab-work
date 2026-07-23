@@ -15,8 +15,35 @@ const deleteBookmarkBtn = document.getElementById("delete-bookmark-button");
 
 const getBookmarks = () => {
   //get the books from the local storage
-  const bookmarks = JSON.parse(localStorage.getItem("bookmarks")) || ["Empty"];
-  console.log(bookmarks);
+  let bookmarks = [];
+  try {
+    //testing if the JSON is valid
+    bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+  } catch (error) {
+    return bookmarks;
+  }
+
+  //checking if the array is valid
+  if (!bookmarks || !Array.isArray(bookmarks)) return [];
+
+  for (const book of bookmarks) {
+    //Check if properties exists
+    const hasNameProp = book.hasOwnProperty("name");
+    const hasCatProp = book.hasOwnProperty("category");
+    const hasUrlProp = book.hasOwnProperty("url");
+    if (!hasNameProp || !hasCatProp || !hasUrlProp) {
+      return [];
+    }
+    //checking if the properties are valid
+    const hasNameVal = book.name || false;
+    const hasCatVal = book.category || false;
+    const hasUrlVal = book.url || false;
+
+    if (!hasNameVal || !hasCatVal || !hasUrlVal) {
+      return [];
+    }
+  }
+
   //bookmarks from LS
   return bookmarks;
 };
@@ -60,7 +87,7 @@ addBookmartsBtnForm.addEventListener("click", () => {
   //add array at the end
   const bookmarks = getBookmarks();
   const bookmarkName = nameInput.value;
-  const category = categoryName.innerText;
+  const category = categoryDropdown.value;
   const url = urlInput.value;
 
   const objProperties = !bookmarkName || !category || !url;
@@ -79,14 +106,15 @@ addBookmartsBtnForm.addEventListener("click", () => {
 
 const viewFunction = () => {
   updatePageHeader();
+  categoryList.innerHTML = "";
   //User stories
   let selectedBookmarks = getBookmarks();
   selectedBookmarks = selectedBookmarks.filter(
-    (bookmark) => bookmark.category === categoryName.innerText,
+    (bookmark) => bookmark.category === categoryDropdown.value,
   );
   if (selectedBookmarks.length) {
-    selectedBookmarks.forEach((bookmark) => {
-      categoryList.innerHTML += `<label><input type="radio" name="category-list" id="${bookmark.name}" value="${bookmark.name}"/><a href="${bookmark.url}">  ${bookmark.name}</a></label><br>`;
+    selectedBookmarks.forEach((bookmark, index) => {
+      categoryList.innerHTML += `<input type="radio" name="category-list" id="${bookmark.name}" value="${bookmark.name}"/><label for="${bookmark.name}"><a href="${bookmark.url}">${bookmark.name}</a></label>`;
     });
   } else {
     categoryList.innerHTML = `<p>No Bookmarks Found</p>`;
