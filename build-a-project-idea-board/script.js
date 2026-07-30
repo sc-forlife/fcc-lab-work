@@ -1,10 +1,10 @@
-const projectStatus = {
-  PENDING: "Pending Execution",
-  SUCCESS: "Executed Successfully",
-  FAILURE: "Execution Failed",
+export const projectStatus = {
+  PENDING: { description: "Pending Execution" },
+  SUCCESS: { description: "Executed Successfully" },
+  FAILURE: { description: "Execution Failed" },
 };
 
-class ProjectIdea {
+export class ProjectIdea {
   constructor(title, description) {
     this.title = title;
     this.description = description;
@@ -35,10 +35,10 @@ class ProjectIdeaBoard {
   }
   formatToString() {
     return ```
-    
     ${this.title} has ${this.count()} idea(s)
-    
-    
+    ${this.items.map((projectIdea) => {
+      return `${projectIdea.title} (${projectIdea.status}) - ${projectIdea.description}`;
+    })}
     ```;
   }
 }
