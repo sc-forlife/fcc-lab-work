@@ -16,29 +16,32 @@ export class ProjectIdea {
   }
 }
 
-class ProjectIdeaBoard {
+export class ProjectIdeaBoard {
   constructor(title) {
     this.title = title;
     this.ideas = [];
   }
 
   pin(classProjectIdeaInstance) {
-    this.idea.push(classProjectIdeaInstance);
+    this.ideas.push(classProjectIdeaInstance);
   }
 
   unpin(classProjectIdeaInstance) {
-    this.idea = this.idea.filter((idea) => idea !== classProjectIdeaInstance);
+    this.ideas = this.ideas.filter((idea) => idea !== classProjectIdeaInstance);
   }
 
   count() {
-    return this.idea.length;
+    return this.ideas.length;
   }
   formatToString() {
-    return ```
-    ${this.title} has ${this.count()} idea(s)
-    ${this.items.map((projectIdea) => {
-      return `${projectIdea.title} (${projectIdea.status}) - ${projectIdea.description}`;
-    })}
-    ```;
+    if (!this.ideas.length) {
+      return `Empty Board has 0 idea(s)\n`;
+    }
+
+    return `${this.title} has ${this.count()} idea(s)\n${this.ideas.map(
+      (projectIdea) => {
+        return `${projectIdea.title} (${projectIdea.status.description}) - ${projectIdea.description}\n`;
+      },
+    )}`;
   }
 }
