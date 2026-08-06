@@ -5,7 +5,7 @@ const countdown = (n) => {
   } else {
     countdownArr = countdown(n - 1);
     countdownArr.push(n);
-    return countdownArr;
+    return countdownArr.sort((a, b) => b - a);
   }
 };
 
