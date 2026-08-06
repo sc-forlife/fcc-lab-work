@@ -1,8 +1,12 @@
 const countdown = (n) => {
-  const countArr = [];
+  let countdownArr = [];
   if (n < 1) {
     return [];
   } else {
-    countArr.push(n);
+    countdownArr = countdown(n - 1);
+    countdownArr.push(n);
+    return countdownArr;
   }
 };
+
+console.log(countdown(5));
