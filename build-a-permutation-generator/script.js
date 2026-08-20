@@ -16,12 +16,3 @@ const permuteString = (string, preValue = "", arr = []) => {
 };
 
 console.log(permuteString(""));
-
-//string
-
-//c + at
-//c + ta
-//a + ct
-//a + tc
-//t + ac
-//t + ca
