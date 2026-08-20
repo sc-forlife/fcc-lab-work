@@ -10,11 +10,12 @@ const permuteString = (string, preValue = "", arr = []) => {
       arr.push(permuteString(newString, newPreValue));
       newPreValue = "";
     }
-    return arr.flat();
+    arr = new Set(arr.flat());
+    return [...arr];
   }
 };
 
-console.log(permuteString("fcc"));
+console.log(permuteString(""));
 
 //string
 
