@@ -47,6 +47,10 @@ function remove(list, element) {
 
 //You should have a contains function that accepts a linked list and an element. It should return true if the specified element exists in the linked list, and false otherwise.
 function contains(list, element) {
+  if (!list.head) {
+    return false;
+  }
+
   let current = list.head;
 
   do {
@@ -75,18 +79,76 @@ function getAt(list, index) {
 }
 
 //You should have a insertAt function that accepts a linked list, an index, and an element. It should insert the given element at the specified position in the linked list. If the index is out of bounds, it should not modify the list.
-function insertAt(list, index, element) {}
+function insertAt(list, index, element) {
+  if (index < 0 || index > list.length) {
+    return undefined;
+  }
 
-function removeAt(list, index) {}
+  let previous = null;
+  let current = list.head;
 
-function clear(list) {}
+  for (let i = 0; i !== index; i++) {
+    previous = current;
+    current = current.next;
+  }
+
+  if (current === null) {
+    previous.next = { element: element, next: null };
+  }
+
+  if (previous === null) {
+    list.head = { element: element, next: list.head };
+  } else {
+    previous.next = { element: element, next: current };
+  }
+
+  list.length++;
+
+  return JSON.stringify(myList, null, 2);
+}
+
+//You should have a removeAt function that accepts a linked list and an index. It should remove the node at the given index in the linked list. If the index is out of bounds, it should not modify the list.
+function removeAt(list, index) {
+  if (index < 0 || index > list.length - 1) {
+    return undefined;
+  }
+
+  let previous = null;
+  let current = list.head;
+
+  for (let i = 0; i !== index; i++) {
+    previous = current;
+    current = current.next;
+  }
+
+  if (previous === null) {
+    list.head = current.next;
+  } else {
+    previous.next = current.next;
+  }
+
+  list.length--;
+
+  return JSON.stringify(myList, null, 2);
+}
+
+//You should have a clear function that accepts a linked list. It should remove all elements from the linked list, effectively resetting it to an empty state.
+function clear(list) {
+  list.head = null;
+  list.length = 0;
+  return JSON.stringify(myList, null, 2);
+}
 
 const myList = initList();
+const newList = initList();
 add(myList, 40);
 add(myList, 41);
 add(myList, 42);
 add(myList, 43);
 console.log(JSON.stringify(myList, null, 2));
 
-// console.log(contains(myList, 39));
+// console.log(contains(newList, 39));
 // console.log(getAt(myList, 3));
+console.log(insertAt(myList, 4, 40.5));
+// console.log(removeAt(myList, 1));
+// console.log(clear(myList));
