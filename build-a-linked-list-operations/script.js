@@ -87,6 +87,15 @@ function insertAt(list, index, element) {
   let previous = null;
   let current = list.head;
 
+  console.log(current);
+
+  if (current === null) {
+    list.head = { element: element, next: null };
+    list.length++;
+
+    return JSON.stringify(list, null, 2);
+  }
+
   for (let i = 0; i !== index; i++) {
     previous = current;
     current = current.next;
@@ -121,7 +130,7 @@ function removeAt(list, index) {
     current = current.next;
   }
 
-  if (previous === null) {
+  if (previous === null && index === 0) {
     list.head = current.next;
   } else {
     previous.next = current.next;
@@ -149,6 +158,6 @@ console.log(JSON.stringify(myList, null, 2));
 
 // console.log(contains(newList, 39));
 // console.log(getAt(myList, 3));
-console.log(insertAt(myList, 4, 40.5));
+console.log(insertAt(newList, 0, 30));
 // console.log(removeAt(myList, 1));
 // console.log(clear(myList));
